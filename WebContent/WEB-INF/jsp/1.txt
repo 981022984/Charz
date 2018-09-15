@@ -1,0 +1,22 @@
+$(document).ready(function(){
+	alert("2");
+	$("#b2").click(function(){
+		alert("3");
+		testAjaxJson();
+	});
+	function testAjaxJson(){
+		$.ajax({url:"${pageContext.request.contextPath}/json/showCategory",			
+					dataType :"json",
+					type : "post",
+					contenType : "application/json",
+					data : JSON.stringify({userID:"1415241"}),
+					async : true,
+					success :function(data){
+						alert("成功");
+					},
+					error :function(){
+						alert("数据传输失败");
+					}
+				});
+	}
+});

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 一个映射文件，存放一些SQL语句，namespace用来调用映射语句，如：...testQuestionMapper.selectTestQuestion(即可调用第一条sql语句) -->
+<!-- 同时也映射到对应的dao接口，可通过接口对应的方法（即方法名与各SQL语句的id相同）来执行SQL语句 -->
+<!-- 
+	试卷试题CRUD
+ -->
+<mapper namespace="com.dao.testQuestionMapper"> 
+    <!-- 结果集映射 -->
+    <resultMap id="testQuestionMapper" type="com.model.testQuestion">
+  		<id property="tqNo" column="tqNo"/>     
+  		<result property="tpNo" column="tpNo"/>
+  		<result property="tqName" column="tqName"/>
+  		<result property="tqOptions" column="tqOptions"/>
+  		<result property="tqScore" column="tqScore"/> 
+  	</resultMap>
+    
+  	<resultMap id="testPaperMapper" type="com.model.testPaper">
+  		<id property="tpNo" column="tpNo"/>
+  		<result property="tpName" column="tpName"/>
+  		<result property="tpAnalysis" column="tpAnalysis"/> 
+  	</resultMap>
+  	
+  	<resultMap id="SCMapper" type="com.model.SC">
+  		<id property="Sno" column="Sno"/>
+  		<id property="tpNo" column="tpNo"/>
+  		<result property="score" column="score"/>
+  	</resultMap>
+  	
+  	<!-- 根据试卷编号获取该试卷的题目 -->
+  	<select id="selectTestQuestion" parameterType="String" resultMap="testQuestionMapper">
+    	SELECT * FROM testquestion WHERE tpNo=#{tpNo}
+  	</select>
+  	
+  	<!-- 根据试卷名获取试卷编号 -->
+  	<select id="selectTestPaperNo" parameterType="String" resultType="String">
+  	    select tpNo from testpaper where tpName = #{tpName}
+  	</select>
+  	
+  	<!-- 查询问题得分分析 -->
+  	<select id="selectTestAnalysis" parameterType="String" resultType="String">
+  		select tpAnalysis from testpaper where tpNo = #{tpNo}
+  	</select>
+  	
+  	<!-- 考试后插入成绩 -->
+  	<insert id="insertTestScore" parameterType="com.model.SC">
+  	    insert into sc(Sno,tpNo,score) 
+  	    value(#{Sno},#{tpNo},#{score})
+  	</insert>
+  	
+  	<!-- 查看学生是否做过试卷 -->
+  	<select id="selectTestHasDone" parameterType="com.model.SC" resultType="int">
+  		select COUNt(*) from SC where Sno=#{Sno} and tpNo=#{tpNo}
+  	</select>
+</mapper>
+
+
+  	
+  	
+  	
+  	
+  	
+  	

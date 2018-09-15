@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 一个映射文件，存放一些SQL语句，namespace用来调用映射语句，如：...com.dao.StudentMapper.selectStudetn(即可调用第一条sql语句) -->
+<!-- 同时也映射到对应的dao接口，可通过接口对应的方法（即方法名与各SQL语句的id相同）来执行SQL语句 -->
+<mapper namespace="com.dao.ClassAndDeptMapper">
+	<!-- 获取所有班级的名字 -->
+	<select id="getAllClassName" parameterType="String" resultType="String">
+	    select ClassName from class where DeptNo=#{DeptNo}
+	</select>
+	
+	<!-- 查询所有的系的名称 -->
+	<select id="getAllDeptName" resultType="String">
+		select DeptName from dept
+	</select>
+	
+	<!-- 查询对应名称的系的DeptNo -->
+	<select id="getDeptNo" parameterType="String" resultType="String">
+	    select DeptNo from dept where DeptName=#{DeptName}
+	</select>
+</mapper>

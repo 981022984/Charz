@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      			           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     					   http://www.springframework.org/schema/context
+     					   http://www.springframework.org/schema/context/spring-context-3.0.xsd"> 
+      	
+    	<!-- 自动扫描全部com.*包中的注解(创建对象，注入属性的注解) -->
+    	<context:component-scan base-package="com"></context:component-scan>
+    	
+        <!-- 
+       		要是使用mybatis中的Sql语句，就要创建SqlSession,要创建SqlSession就要创建SqlSessionFactory
+       		要创建SqlSessionFactory就要有mybatis中配置的DataSource
+       		要将SqlSeesionFactory注入到mapper.xml的映射接口的实现（并非真正的实现）中，就要创建SqlSessionFactory对象 
+         -->
+       	<!-- 创建DateSource -->
+        <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+    		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>  
+    		<property name="url" value="jdbc:mysql://localhost:3306/psytest?useAffectedRows=true&amp;
+    		    useUnicode=true&amp;characterEncoding=utf8" />  
+    		<property name="username" value="root" />     
+    		<property name="password" value="981022984" /> 
+		</bean>
+        <!-- 配置SqlSessionFactory
+        	  其中sqlSessionFactory是bean的名字,可通过该名字获取创建的对象
+        	 class="xx"中xx是要创建对象的全路径
+         -->
+        <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+  			<property name="dataSource" ref="dataSource" />
+		</bean>
+		
+        <!-- 扫描xxmapper.xml映射文件 -->
+		<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+       		<!--扫描包的路径-->
+        	<property name="basePackage" value="com.dao"/>
+        	<!--注入sqlsession工程bean的名字-->
+        	<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    	</bean>
+
+        <!-- 创建 一个SutdenCRUD对象，注入loginService的属性中 -->
+        <bean id="studentCRUD" class="com.dao.StudentCRUD"></bean> 
+        
+        <!-- 创建一个TestQuestionPaperCRUD对象，注入Service中 -->
+ 		<bean id="tqpc" class="com.dao.TestQuestionPaperCRUD"></bean>    
+ 		
+ 		<!-- 创建一个ClassAndDept对象，注入Service中 -->
+ 		<bean id="classAndDept" class="com.dao.ClassAndDept"></bean>
+ 		
+ 		<!-- 创建Service对象，注入Controller中 -->
+ 		<bean id="loginservice" class="com.service.loginServiceImpl"></bean>
+ 		
+ 		<bean id="testService" class="com.service.TestServiceImpl"></bean>
+ 		
+ 		<bean id="user" class="com.model.User"></bean>
+</beans>
+
+
+
+
+
+

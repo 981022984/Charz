@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 一个映射文件，存放一些SQL语句，namespace用来调用映射语句，如：...com.dao.StudentMapper.selectStudetn(即可调用第一条sql语句) -->
+<!-- 同时也映射到对应的dao接口，可通过接口对应的方法（即方法名与各SQL语句的id相同）来执行SQL语句 -->
+<mapper namespace="com.dao.StudentMapper"> 
+    
+    <!-- 创建一个映射map,左边为entity中属性，右边为数据表中字段 -->
+  	<resultMap id="studentMap" type="com.model.Student">
+  		<id property="id" column="Sno"/>
+  		<result property="password" column="password"/>
+  		<result property="name" column="Sname"/>
+  		<result property="birthday" column="birthday"/> 
+  		<result property="ClassName" column="ClassName"/>  
+  		<result property="DeptName" column="DeptName"/> 
+  	</resultMap>
+  	<!-- 根据账号密码查询学生，判断登录信息是否正确,传入的参数为hashmap型 -->
+	<select id="selectLoginStudent" parameterType="hashmap" resultMap="studentMap">
+ 		select * from student where Sno=#{id} and password=#{password}
+  	</select>
+	
+	<!-- 根据学号查找学生 -->
+  	<select id="selectStudent" parameterType="String" resultMap="studentMap">
+   		select * from student where Sno = #{id}
+  	</select>
+  	
+  	<!-- 查找所有的学生信息 -->
+  	<select id="selectAllStudent" resultMap="studentMap">
+    	select * from student
+  	</select>
+  	
+  	<!-- 判断学号是否存在用户学号 -->
+  	<select id="checkStudentNo" parameterType="String" resultType="String">
+  		select Sno from student where Sno=#{id}
+  	</select>
+ 
+  	<!-- 修改密码 -->
+  	<update id="updatePassword" parameterType="hashmap">
+  		update student 
+  		<set> 
+  		    password=#{password} 
+  		</set>
+  		where Sno=#{id}
+  	</update>
+  	
+  	<!-- 插入学生（修改完全版） -->
+  	<insert id="addNewStudent" parameterType="com.model.Student">
+  	    insert into Student(Sno,Sname,password,birthday,DeptName,ClassName)
+  	    value(#{id},#{name},#{password},#{birthday},#{DeptName},#{ClassName})
+  	</insert>
+</mapper>

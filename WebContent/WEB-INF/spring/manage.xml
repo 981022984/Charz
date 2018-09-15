@@ -1,0 +1,100 @@
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	   xmlns:p="http://www.springframework.org/schema/p" 
+	   xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	   xmlns:context="http://www.springframework.org/schema/context" 
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aophdp
+        http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+        http://www.springframework.org/schema/cache
+        http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.1.xsd
+        http://www.springframework.org/schema/hadoop 
+        http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
+	<!-- 设置使用注解的类所在的jar包(指定控制器类（controller注释的类）的基本包) -->
+   	<context:component-scan base-package="com.controller"/>
+   	<context:component-scan base-package="com.service"/>
+   	<context:component-scan base-package="com.dao"/>
+   	
+   	<!-- 启用spring mvc 注解 -->
+   	<context:annotation-config />
+
+   	<!-- 完成请求和注解POJO的映射 -->
+   	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+   	
+   	
+   	
+    <!-- 静态文件不会经过DispatcherServlet -->
+    <mvc:annotation-driven/>
+	<mvc:default-servlet-handler/>
+	
+	
+	
+	<!-- 开始    转换器配置 -->
+	<!-- 1.配置装配自定义转换器 -->
+	<mvc:annotation-driven conversion-service="conversionService"/>
+	<!-- 2.自定义转换器 -->
+	<bean id="conversionService" 
+	    class="org.springframework.context.support.ConversionServiceFactoryBean">
+	    <property name="converters">
+	    	<list>
+	    		<bean class="com.converters.StringToDateConverter">
+	    		    <!-- 设置StringToDateConverter参数的值，通过构造函数设置，还可通过setXXX() -->
+	    		    <constructor-arg type="java.lang.String" value="yyyy-MM-dd"/>
+	    		    
+	    		    <!-- 通过set方法设置
+	    		    	<property name="参数名" value="参数值">
+	    		     -->
+	    		</bean>
+	    	</list>
+	    </property>
+	</bean>
+	<!-- 结束    转换器配置 -->
+	
+	
+	
+	
+	<!-- 开始  配置 SessionLocaleResolver -->
+	<!-- 国际化支持 -->
+  	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<!-- 国际化资源文件配置,指定properties文件存放位置,资源文件共同前缀名(message) -->
+		<property name="basename" value="/WEB-INF/languageResources/messages" />
+		<!-- 如果在国际化资源文件中找不到对应代码的信息，就用这个代码作为名称(可固定)  -->               
+	 	<property name="useCodeAsDefaultMessage" value="true" />
+	</bean>
+	<!-- 基于Session必需配置 -->
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+	</bean>
+	<mvc:interceptors>
+    	<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+	</mvc:interceptors>
+	<!-- 结束   国际化配置，基于SessionLocaleResolver实现-->
+	
+	
+	
+	
+	<!-- 拦截器配置 -->
+	<mvc:interceptors>
+		<!--多个拦截器,顺序执行 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.Interceptor.loginValidate"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
+	
+   	<!-- 对转向页面的路径解析。prefix：前缀， suffix：后缀 -->
+   	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+      	<property name="prefix" value="/WEB-INF/jsp/" />
+      	<property name="suffix" value=".jsp" />
+   	</bean>
+   	
+</beans>

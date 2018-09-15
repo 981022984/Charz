@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<environments default="development">
+		<environment id="development">
+			<!-- 使用JDBC事物管理 -->
+			<transactionManager type="JDBC" />
+			<!-- 数据源——连接池机制，创建好连接，供用户选用，不必每次使用都重新创建连接 （对比UNPOOLED）-->
+			<dataSource type="POOLED">
+				<!-- 连接驱动程序（选用的是mysql） -->
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<!-- 连接的数据库服务器,位置，端口号，数据库  以及相关设置（见笔记）-->
+				<property name="url"
+					value="jdbc:mysql://localhost:3306/psytest?useAffectedRows=true&amp;useUnicode=true&amp;characterEncoding=utf8"/>
+				<!-- 连接用户名 -->
+				<property name="username" value="root" />
+				<!-- 连接密码 -->
+				<property name="password" value="981022984" />                        
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<!-- 需要加载的映射文件的位置 -->
+		<mapper
+			resource="testQuestionMapper.xml" />
+		<mapper
+		    resource="StudentMapper.xml"/>
+		<mapper
+		    resource="ClassAndDeptMapper.xml"/>
+	</mappers>
+</configuration>
