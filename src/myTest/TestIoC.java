@@ -17,11 +17,11 @@ import com.model.Student;
 import com.model.User;
 import com.service.loginServiceImpl;
 
-@RunWith(SpringJUnit4ClassRunner.class) //指定测试用例的运行器 这里是指定了Junit4
-@ContextConfiguration(locations = {"classpath*:application-dao.xml"})//装配Spring
+@RunWith(SpringJUnit4ClassRunner.class) //鎸囧畾娴嬭瘯鐢ㄤ緥鐨勮繍琛屽櫒 杩欓噷鏄寚瀹氫簡Junit4
+@ContextConfiguration(locations = {"classpath*:application-dao.xml"})//瑁呴厤Spring
 public class TestIoC {
 	/**
-	 * Spring IoC测试
+	 * Spring IoC娴嬭瘯
 	 */
 	
 	@Resource(name="loginservice")
@@ -33,8 +33,9 @@ public class TestIoC {
 	public void test() {
 		/*ApplicationContext context = new ClassPathXmlApplicationContext("application-dao.xml");
 		User user = (User) context.getBean("user");*/
-		//加载配置文件
+		//鍔犺浇閰嶇疆鏂囦欢
 		/*System.out.println(user)*/;
+		System.out.println("testGit");
 		String str = loginservice.modifyPassword("1415241", "123456", "654321", "654321");
 		System.out.println("123---"+loginservice);
 		System.out.println("456"+str);
