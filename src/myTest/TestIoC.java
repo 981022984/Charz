@@ -37,7 +37,6 @@ public class TestIoC {
 		/*System.out.println(user)*/;
 		String str = loginservice.modifyPassword("1415241", "123456", "654321", "654321");
 		System.out.println("123---"+loginservice);
-		System.out.println("test123456Git");
 		System.out.println("456"+str);
 	}
 }
