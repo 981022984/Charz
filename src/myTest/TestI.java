@@ -14,7 +14,6 @@ public class TestI {
 	
 	@Resource(name="sqlSessionFactory")
 	private SqlSessionFactory sqlSessionFactory;
-	
 	public void sys() {
 		System.out.println("1--"+sqlSessionFactory);
 	}
