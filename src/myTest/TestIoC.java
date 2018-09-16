@@ -35,9 +35,7 @@ public class TestIoC {
 		User user = (User) context.getBean("user");*/
 		//加载配置文件
 		/*System.out.println(user)*/;
-		System.out.println("testGit");
 		String str = loginservice.modifyPassword("1415241", "123456", "654321", "654321");
-		System.out.println("testGit");
 		System.out.println("123---"+loginservice);
 		System.out.println("456"+str);
 	}
