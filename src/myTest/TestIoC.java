@@ -39,6 +39,7 @@ public class TestIoC {
 		System.out.println("123---"+loginservice);
 		System.out.println("test123456Git");
 		System.out.println("456"+str);
+		System.out.println("ĞŞ¸Ä±àÂë");
 	}
 }
 
